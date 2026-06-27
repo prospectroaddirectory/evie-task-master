@@ -19,6 +19,36 @@
   .faq-callout p{margin:0; color:var(--text-soft); font-size:.95rem; max-width:48ch;}
   .faq-callout .btn{flex:0 0 auto;}
   @media (max-width:760px){ .faq-callout{flex-direction:column; align-items:flex-start;} }
+
+  .price-lead{max-width:56ch; color:var(--text-soft); margin:0 0 4px; font-size:1rem;}
+  .price-examples{display:flex; flex-wrap:wrap; gap:22px; margin-top:28px;}
+  .example{
+    background:var(--paper-card); border:1px solid var(--line); border-radius:var(--radius);
+    padding:24px 24px 22px; flex:1 1 300px; position:relative;
+  }
+  .example .eg-label{font-family:'Fredoka', sans-serif; font-weight:600; font-size:1.08rem; margin-bottom:12px; color:var(--ink);}
+  .example ul{list-style:none; margin:0; padding:0;}
+  .example li{
+    display:flex; justify-content:space-between; gap:12px; align-items:baseline;
+    font-size:.92rem; color:var(--text-soft); padding:7px 0; border-bottom:1px dashed var(--line);
+  }
+  .example li span:last-child{color:var(--ink); font-weight:500; white-space:nowrap;}
+  .example .eg-total{display:flex; justify-content:space-between; align-items:baseline; margin-top:14px;}
+  .example .eg-total .lbl{font-family:'Fredoka', sans-serif; font-weight:600; font-size:.98rem;}
+  .example .eg-total .amt{font-family:'Fredoka', sans-serif; font-weight:700; font-size:1.9rem; color:var(--ink);}
+  .example .eg-vs{font-size:.82rem; color:var(--postmark); margin:12px 0 0; font-weight:500;}
+
+  .price-menu{
+    background:var(--paper-card); border:1px solid var(--line); border-radius:var(--radius);
+    padding:24px 26px; margin-top:22px;
+  }
+  .price-menu-grid{display:flex; flex-wrap:wrap; gap:28px;}
+  .menu-group{flex:1 1 190px;}
+  .menu-group h3{font-size:.78rem; text-transform:uppercase; letter-spacing:1.2px; color:var(--postmark); margin-bottom:10px;}
+  .menu-group ul{list-style:none; margin:0; padding:0;}
+  .menu-group li{display:flex; justify-content:space-between; gap:10px; font-size:.9rem; color:var(--text-soft); padding:5px 0;}
+  .menu-group li span:last-child{color:var(--ink); font-weight:500; white-space:nowrap;}
+  .price-note{font-size:.88rem; color:var(--text-soft); margin:18px 0 0; padding-top:16px; border-top:1px solid var(--line);}
 </style>
 </head>
 <body>
@@ -182,23 +212,58 @@
       <rect x="6" y="16" width="20" height="4" fill="var(--postmark)"/>
     </svg>
     <span class="eyebrow">Pricing</span>
-    <h2>Kept simple</h2>
-    <div class="tags">
-      <div class="tag">
-        <div class="price">£3</div>
-        <h3>Quick visit</h3>
-        <p>Bins, parcels, security check and/or curtains &amp; lights, per visit.</p>
+    <h2>Simple, by the task</h2>
+    <p class="price-lead">Everything's priced by the time it takes, so you only pay for what you actually need. Here's how two typical weeks add up:</p>
+
+    <div class="price-examples">
+      <div class="example">
+        <div class="eg-label">A quiet week away</div>
+        <ul>
+          <li><span>Bins out &amp; back in</span><span>£4</span></li>
+          <li><span>Parcel check</span><span>£2</span></li>
+        </ul>
+        <div class="eg-total"><span class="lbl">For the week</span><span class="amt">~£6</span></div>
       </div>
-      <div class="tag">
-        <div class="price">£5</div>
-        <h3>Full visit</h3>
-        <p>Add pet feeding or plant watering, per visit.</p>
+      <div class="example">
+        <div class="eg-label">Away with a cat</div>
+        <ul>
+          <li><span>Fed morning &amp; evening</span><span>£6/day</span></li>
+          <li><span>Every day for a week</span><span>×7</span></li>
+        </ul>
+        <div class="eg-total"><span class="lbl">For the week</span><span class="amt">~£42</span></div>
+        <p class="eg-vs">A professional sitter would charge £140+</p>
       </div>
-      <div class="tag">
-        <div class="price">£20<small>/wk</small></div>
-        <h3>Weekly cover</h3>
-        <p>Daily visits, everything included, while you're away.</p>
+    </div>
+
+    <div class="price-menu">
+      <div class="price-menu-grid">
+        <div class="menu-group">
+          <h3>Quick jobs</h3>
+          <ul>
+            <li><span>Bins out</span><span>£2</span></li>
+            <li><span>Bins back in</span><span>£2</span></li>
+            <li><span>Parcels</span><span>£2</span></li>
+            <li><span>Security check</span><span>£2</span></li>
+            <li><span>Curtains &amp; lights</span><span>£2</span></li>
+          </ul>
+        </div>
+        <div class="menu-group">
+          <h3>Pets</h3>
+          <ul>
+            <li><span>Feed one pet</span><span>£3</span></li>
+            <li><span>Each extra pet</span><span>+50p</span></li>
+            <li><span>Feed + 15 min play</span><span>£6</span></li>
+          </ul>
+        </div>
+        <div class="menu-group">
+          <h3>Plants</h3>
+          <ul>
+            <li><span>Indoor or garden</span><span>£3</span></li>
+            <li><span>Indoor and garden</span><span>£6</span></li>
+          </ul>
+        </div>
       </div>
+      <p class="price-note">Prices are per visit, and most pets need two feeds a day. My Dad works out a fair total and confirms it before you book — no surprises, and jobs done on the same pop-in won't all be charged in full.</p>
     </div>
   </div>
 </section>
