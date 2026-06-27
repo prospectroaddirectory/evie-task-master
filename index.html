@@ -9,6 +9,17 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<style>
+  .faq-callout{
+    background:var(--paper-card); border:1px solid var(--line); border-radius:var(--radius);
+    padding:26px 30px; display:flex; align-items:center; justify-content:space-between;
+    gap:24px; flex-wrap:wrap; position:relative; overflow:hidden;
+  }
+  .faq-callout h2{font-size:1.4rem; margin-bottom:4px;}
+  .faq-callout p{margin:0; color:var(--text-soft); font-size:.95rem; max-width:48ch;}
+  .faq-callout .btn{flex:0 0 auto;}
+  @media (max-width:760px){ .faq-callout{flex-direction:column; align-items:flex-start;} }
+</style>
 </head>
 <body>
 
@@ -31,7 +42,7 @@
     <div>
       <span class="eyebrow">Prospect Road &amp; nearby</span>
       <h1>Away this summer?<br>Home help, sorted.</h1>
-      <p class="lede">Hi, I'm Evie. I live in Southborough and I'm available this summer to help out while you're on holiday — pets fed, bins in and out, parcels collected, plants watered, or just a quick once-over of the house. I'm also super reliable and sensible, but all enquiries go straight to my Dad, so it's one less thing to think about.</p>
+      <p class="lede">Hi, I'm Evie. I live on Prospect Road and I'm available this summer to help out while you're on holiday — pets fed, bins in and out, parcels collected, plants watered, or just a quick once-over of the house. I'm also super reliable and sensible, but all enquiries go straight to my Dad, so it's one less thing to think about.</p>
       <a class="btn" href="contact.html">Request a visit →</a>
     </div>
     <div class="hero-illustration">
@@ -188,6 +199,25 @@
         <h3>Weekly cover</h3>
         <p>Daily visits, everything included, while you're away.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="faq-callout">
+      <svg class="doodle" aria-hidden="true" viewBox="0 0 40 40" style="top:-8px; right:-6px; width:46px; transform:rotate(14deg); opacity:.5;">
+        <ellipse cx="20" cy="10" rx="4" ry="6" fill="var(--blossom)"/>
+        <ellipse cx="20" cy="30" rx="4" ry="6" fill="var(--blossom)"/>
+        <ellipse cx="10" cy="20" rx="6" ry="4" fill="var(--blossom)"/>
+        <ellipse cx="30" cy="20" rx="6" ry="4" fill="var(--blossom)"/>
+        <circle cx="20" cy="20" r="4" fill="var(--marigold)"/>
+      </svg>
+      <div class="faq-callout-text">
+        <h2>Got a question?</h2>
+        <p>Have a quick look through the things people ask most before booking.</p>
+      </div>
+      <a class="btn" href="faq.html">Check our FAQs →</a>
     </div>
   </div>
 </section>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQs — Evie Task Master</title>
+<meta name="description" content="Common questions about Evie's holiday home-help service: how it works, what happens if a pet is unwell, what's needed before you go, and the areas covered.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .faq-intro{max-width:46ch; color:var(--text-soft); font-size:1.05rem; margin:0 0 8px;}
+  .faq-list{display:flex; flex-direction:column; gap:14px; margin-top:30px; max-width:760px;}
+  details.faq{
+    background:var(--paper-card); border:1px solid var(--line);
+    border-radius:var(--radius); overflow:hidden;
+  }
+  details.faq summary{
+    cursor:pointer; list-style:none; padding:18px 22px;
+    font-family:'Fredoka', sans-serif; font-weight:600; font-size:1.05rem;
+    color:var(--ink); display:flex; align-items:center; justify-content:space-between; gap:16px;
+  }
+  details.faq summary::-webkit-details-marker{display:none;}
+  .faq-marker{
+    flex:0 0 auto; width:22px; height:22px; position:relative;
+    transition:transform .2s ease;
+  }
+  .faq-marker::before, .faq-marker::after{
+    content:""; position:absolute; background:var(--postmark); border-radius:2px;
+  }
+  .faq-marker::before{top:10px; left:3px; width:16px; height:2.5px;}
+  .faq-marker::after{top:3px; left:9.75px; width:2.5px; height:16px;}
+  details.faq[open] .faq-marker{transform:rotate(135deg);}
+  .faq-body{padding:0 22px 20px; color:var(--text-soft); font-size:.96rem;}
+  .faq-body p{margin:0;}
+  .faq-body strong{color:var(--ink);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="index.html">Evie <span>Task Master</span></a>
+    <a class="btn btn-small" href="contact.html">Request a visit</a>
+  </div>
+</header>
+
+<section style="padding:56px 0 8px;">
+  <div class="wrap">
+    <svg class="doodle" aria-hidden="true" viewBox="0 0 40 40" style="top:32px; right:8px; width:36px; transform:rotate(-10deg);">
+      <ellipse cx="20" cy="10" rx="4" ry="6" fill="var(--blossom)"/>
+      <ellipse cx="20" cy="30" rx="4" ry="6" fill="var(--blossom)"/>
+      <ellipse cx="10" cy="20" rx="6" ry="4" fill="var(--blossom)"/>
+      <ellipse cx="30" cy="20" rx="6" ry="4" fill="var(--blossom)"/>
+      <circle cx="20" cy="20" r="4" fill="var(--marigold)"/>
+    </svg>
+    <span class="eyebrow">Good to know</span>
+    <h1 style="font-size:2.4rem;">Questions &amp; answers</h1>
+    <p class="faq-intro">A few things people often ask before booking. If there's anything else you're wondering, just pop it in the contact form and my Dad will get back to you.</p>
+  </div>
+</section>
+
+<section style="padding-top:8px;">
+  <div class="wrap">
+    <div class="faq-list">
+
+      <details class="faq" open>
+        <summary>I've sent my request — what happens now?<span class="faq-marker" aria-hidden="true"></span></summary>
+        <div class="faq-body">
+          <p>My Dad will email you back to confirm I'm free, the price, and our bank details, along with a short summary of exactly what's been agreed. If you're happy, pay the balance by bank transfer. Once that's come through, we'll arrange a quick visit before you go away so you can show me exactly what you'd like done.</p>
+        </div>
+      </details>
+
+      <details class="faq">
+        <summary>What happens if you're poorly or have other plans?<span class="faq-marker" aria-hidden="true"></span></summary>
+        <div class="faq-body">
+          <p>Don't worry — my Mum and Dad will know exactly what's meant to be done, and they'll make sure it all happens as promised. You'll never be left without cover.</p>
+        </div>
+      </details>
+
+      <details class="faq">
+        <summary>What if my pet is unwell while I'm away?<span class="faq-marker" aria-hidden="true"></span></summary>
+        <div class="faq-body">
+          <p>If I notice anything wrong — off their food, low energy, or just not themselves — I'll tell my Mum and Dad straight away and we'll contact you immediately so you can decide what to do. If we can't reach you and it looks urgent, we'll take them to the vet you've told us about. That's why we'll always ask for your vet's details and an emergency contact before you go.</p>
+        </div>
+      </details>
+
+      <details class="faq">
+        <summary>What do you need from me before I go away?<span class="faq-marker" aria-hidden="true"></span></summary>
+        <div class="faq-body">
+          <p>Just a few things so everything runs smoothly: how to get in (a key or door code), what needs doing and when, feeding amounts and where things are kept, your vet's details and an emergency contact for pets, and any alarm codes. We'll go through it all together on the visit before you leave, so nothing gets missed.</p>
+        </div>
+      </details>
+
+      <details class="faq">
+        <summary>Which areas do you cover?<span class="faq-marker" aria-hidden="true"></span></summary>
+        <div class="faq-body">
+          <p>I cover Prospect Road and the nearby streets — anywhere I can easily walk to. If you're not sure whether you're close enough, just ask in the contact form and we'll let you know.</p>
+        </div>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap">
+    <h2>Still got a question?</h2>
+    <p>Send it over and we'll get back to you.</p>
+    <a class="btn" href="contact.html">Request a visit →</a>
+  </div>
+</section>
+
+<footer>
+  <svg class="doodle" aria-hidden="true" viewBox="0 0 40 40" style="top:0; left:50%; width:30px; transform:translateX(-180px) rotate(10deg);">
+    <ellipse cx="20" cy="10" rx="4" ry="6" fill="var(--blossom)"/>
+    <ellipse cx="20" cy="30" rx="4" ry="6" fill="var(--blossom)"/>
+    <ellipse cx="10" cy="20" rx="6" ry="4" fill="var(--blossom)"/>
+    <ellipse cx="30" cy="20" rx="6" ry="4" fill="var(--blossom)"/>
+    <circle cx="20" cy="20" r="4" fill="var(--marigold)"/>
+  </svg>
+  <span class="brand">Evie Task Master</span>
+  Serving Prospect Road and nearby streets · Summer holidays only
+</footer>
+
+</body>
+</html>
