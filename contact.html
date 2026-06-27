@@ -51,9 +51,25 @@
           <input type="email" id="email" name="email" required>
         </div>
 
-        <div class="field">
-          <label for="dates">Dates you'll be away</label>
-          <input type="text" id="dates" name="dates" placeholder="e.g. 4–18 August">
+        <div class="field date-field">
+          <label for="datesTrigger">Dates you'll be away</label>
+          <button type="button" id="datesTrigger" class="date-trigger" aria-haspopup="dialog" aria-expanded="false">Choose dates →</button>
+          <input type="hidden" id="datesHidden" name="dates">
+          <p class="field-note">Heads up — we're away ourselves 10–17 Aug, so those dates are blocked out below.</p>
+
+          <div class="date-popover" id="datePopover" hidden>
+            <div class="date-popover-head">
+              <button type="button" id="prevMonth" aria-label="Previous month">‹</button>
+              <span id="monthLabel"></span>
+              <button type="button" id="nextMonth" aria-label="Next month">›</button>
+            </div>
+            <div class="date-grid" id="dateGrid"></div>
+            <p class="date-warning" id="dateWarning" hidden></p>
+            <div class="date-popover-foot">
+              <button type="button" id="clearDates" class="link-btn">Clear</button>
+              <button type="button" id="applyDates" class="btn btn-small">Done</button>
+            </div>
+          </div>
         </div>
 
         <div class="field">
@@ -91,6 +107,141 @@
 </footer>
 
 <script>
+  // ---- Date-range picker, with our own holiday week blocked out ----
+  const BLOCKED_FROM = new Date(2026, 7, 10); // 10 Aug 2026
+  const BLOCKED_TO   = new Date(2026, 7, 17); // 17 Aug 2026
+  const VIEW_MIN = new Date(2026, 5, 1);  // Jun 2026
+  const VIEW_MAX = new Date(2026, 9, 1);  // Oct 2026
+
+  const trigger   = document.getElementById('datesTrigger');
+  const popover   = document.getElementById('datePopover');
+  const grid      = document.getElementById('dateGrid');
+  const monthLbl  = document.getElementById('monthLabel');
+  const prevBtn   = document.getElementById('prevMonth');
+  const nextBtn   = document.getElementById('nextMonth');
+  const clearBtn  = document.getElementById('clearDates');
+  const applyBtn  = document.getElementById('applyDates');
+  const warningEl = document.getElementById('dateWarning');
+  const hiddenDates = document.getElementById('datesHidden');
+
+  let viewDate = new Date(2026, 7, 1); // default open on August 2026
+  let rangeStart = null, rangeEnd = null;
+
+  const sameDay = (a, b) => a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+  const isBlocked = (d) => d >= BLOCKED_FROM && d <= BLOCKED_TO;
+  const fmt = (d) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+
+  function rangeHitsBlocked(start, end) {
+    const d = new Date(start);
+    while (d <= end) {
+      if (isBlocked(d)) return true;
+      d.setDate(d.getDate() + 1);
+    }
+    return false;
+  }
+
+  function renderCalendar() {
+    monthLbl.textContent = viewDate.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+    prevBtn.disabled = viewDate <= VIEW_MIN;
+    nextBtn.disabled = viewDate >= VIEW_MAX;
+
+    grid.innerHTML = '';
+    ['Mo','Tu','We','Th','Fr','Sa','Su'].forEach(wd => {
+      const s = document.createElement('span');
+      s.className = 'wd'; s.textContent = wd;
+      grid.appendChild(s);
+    });
+
+    const year = viewDate.getFullYear(), month = viewDate.getMonth();
+    const firstDay = new Date(year, month, 1);
+    const offset = (firstDay.getDay() + 6) % 7; // Monday-first
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    for (let i = 0; i < offset; i++) {
+      const pad = document.createElement('span');
+      pad.className = 'pad';
+      grid.appendChild(pad);
+    }
+
+    for (let day = 1; day <= daysInMonth; day++) {
+      const date = new Date(year, month, day);
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = day;
+      btn.setAttribute('aria-label', date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }));
+
+      if (isBlocked(date)) {
+        btn.classList.add('blocked');
+        btn.disabled = true;
+        btn.title = "We're away ourselves these dates too";
+      } else {
+        if (rangeStart && sameDay(date, rangeStart)) btn.classList.add('range-start');
+        if (rangeEnd && sameDay(date, rangeEnd)) btn.classList.add('range-end');
+        if (rangeStart && rangeEnd && date > rangeStart && date < rangeEnd) btn.classList.add('in-range');
+        btn.addEventListener('click', () => handleDayClick(date));
+      }
+      grid.appendChild(btn);
+    }
+  }
+
+  function handleDayClick(date) {
+    warningEl.hidden = true;
+    if (!rangeStart || rangeEnd) {
+      rangeStart = date; rangeEnd = null;
+    } else if (date < rangeStart) {
+      rangeStart = date; rangeEnd = null;
+    } else {
+      if (rangeHitsBlocked(rangeStart, date)) {
+        warningEl.textContent = "Those dates span 10–17 Aug, when we're away too — pick a range that doesn't cross them.";
+        warningEl.hidden = false;
+        rangeStart = date; rangeEnd = null;
+      } else {
+        rangeEnd = date;
+      }
+    }
+    // Deferred: rebuilding the grid here (it replaces the button just
+    // clicked) must happen after this click event finishes bubbling,
+    // otherwise the outside-click listener sees a detached target and
+    // closes the popover immediately.
+    setTimeout(() => { renderCalendar(); updateTriggerText(); }, 0);
+  }
+
+  function updateTriggerText() {
+    if (rangeStart && rangeEnd) {
+      const text = (rangeStart.getMonth() === rangeEnd.getMonth())
+        ? `${rangeStart.getDate()}–${fmt(rangeEnd)} ${rangeEnd.getFullYear()}`
+        : `${fmt(rangeStart)} – ${fmt(rangeEnd)} ${rangeEnd.getFullYear()}`;
+      trigger.textContent = text;
+      hiddenDates.value = text;
+    } else if (rangeStart) {
+      trigger.textContent = `${fmt(rangeStart)} — pick your last day…`;
+      hiddenDates.value = '';
+    } else {
+      trigger.textContent = 'Choose dates →';
+      hiddenDates.value = '';
+    }
+  }
+
+  function openPopover() {
+    popover.hidden = false;
+    trigger.setAttribute('aria-expanded', 'true');
+    renderCalendar();
+  }
+  function closePopover() {
+    popover.hidden = true;
+    trigger.setAttribute('aria-expanded', 'false');
+  }
+
+  trigger.addEventListener('click', () => popover.hidden ? openPopover() : closePopover());
+  prevBtn.addEventListener('click', () => { if (!prevBtn.disabled) { viewDate = new Date(viewDate.getFullYear(), viewDate.getMonth() - 1, 1); renderCalendar(); } });
+  nextBtn.addEventListener('click', () => { if (!nextBtn.disabled) { viewDate = new Date(viewDate.getFullYear(), viewDate.getMonth() + 1, 1); renderCalendar(); } });
+  clearBtn.addEventListener('click', () => { rangeStart = null; rangeEnd = null; warningEl.hidden = true; renderCalendar(); updateTriggerText(); });
+  applyBtn.addEventListener('click', closePopover);
+  document.addEventListener('click', (e) => {
+    if (!popover.hidden && !popover.contains(e.target) && e.target !== trigger) closePopover();
+  });
+
+  // ---- Form submission ----
   const form = document.getElementById('requestForm');
   const msg = document.getElementById('formMsg');
   const btn = document.getElementById('submitBtn');
