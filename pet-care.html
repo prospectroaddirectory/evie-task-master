@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pet care details &amp; agreement — Evie Task Master</title>
+<meta name="description" content="Pet care details and agreement form for Evie Task Master holiday pet visits.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+
+<!--
+  SETUP NEEDED before this goes live:
+  1. Swap YOUR_FORM_ID in the <form action="..."> below for your Formspree
+     endpoint (looks like https://formspree.io/f/abcd1234).
+     TIP: consider using a SEPARATE Formspree form from the enquiry one, so
+     pet-care agreements land in their own place rather than mixed in with
+     general "request a visit" enquiries. If your plan only allows one form,
+     the hidden "_subject" line below will still label these clearly in
+     your inbox.
+  2. This page is set to "noindex" and is NOT linked from the homepage — it's
+     meant to be sent directly to customers who've booked pet visits, rather
+     than found by anyone browsing the site.
+-->
+
+<style>
+  /* Page-specific styling — base look comes from styles.css */
+  .intro-p{color:var(--text-soft); max-width:52ch; margin-top:6px;}
+
+  .form-section{margin-top:28px;}
+  .form-section > h2{
+    font-size:1.15rem; margin-bottom:2px;
+    padding-bottom:8px; border-bottom:2px solid var(--line);
+  }
+  .section-hint{font-size:.85rem; color:var(--text-soft); margin:8px 0 16px;}
+
+  .field-row{display:flex; flex-wrap:wrap; gap:16px;}
+  .field-row .field{flex:1 1 200px; margin-bottom:18px;}
+
+  /* Pet blocks */
+  .pet-block{
+    background:var(--paper); border:1px solid var(--line);
+    border-radius:12px; padding:20px 20px 4px; margin-bottom:16px; position:relative;
+  }
+  .pet-block-head{
+    display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;
+  }
+  .pet-block-head h3{margin:0; font-size:1rem; color:var(--marigold-dark);}
+  .remove-pet{
+    background:none; border:none; color:var(--postmark); font-size:.82rem;
+    cursor:pointer; text-decoration:underline; padding:2px 4px;
+  }
+  .add-pet{
+    display:inline-flex; align-items:center; gap:6px;
+    background:none; border:2px dashed var(--line); color:var(--ink);
+    font-family:'Fredoka', sans-serif; font-weight:600; font-size:.9rem;
+    padding:10px 18px; border-radius:999px; cursor:pointer; margin-bottom:6px;
+    transition:border-color .15s;
+  }
+  .add-pet:hover{border-color:var(--marigold-dark);}
+
+  /* Insured radio row */
+  .radio-row{display:flex; gap:20px; align-items:center; margin-top:4px;}
+  .radio-row label{display:flex; align-items:center; gap:6px; font-weight:500; font-size:.92rem; cursor:pointer;}
+  .radio-row input{accent-color:var(--postmark);}
+
+  /* £ amount field */
+  .amount-wrap{position:relative; max-width:180px;}
+  .amount-wrap::before{
+    content:"£"; position:absolute; left:12px; top:50%; transform:translateY(-50%);
+    color:var(--text-soft); font-weight:600;
+  }
+  .amount-wrap input{padding-left:26px !important;}
+
+  /* Agreement box */
+  .agreement-box{
+    background:var(--paper); border:1px solid var(--line);
+    border-left:4px solid var(--marigold); border-radius:10px;
+    padding:20px 22px; margin-top:6px;
+  }
+  .agreement-box ul{margin:0; padding-left:20px;}
+  .agreement-box li{font-size:.9rem; margin-bottom:10px; color:var(--ink);}
+  .agreement-box li:last-child{margin-bottom:0;}
+
+  .agree-check{
+    display:flex; gap:10px; align-items:flex-start; margin-top:18px;
+    font-size:.95rem; font-weight:600;
+  }
+  .agree-check input{margin-top:3px; width:18px; height:18px; accent-color:var(--postmark); flex-shrink:0;}
+
+  .sig-row{display:flex; flex-wrap:wrap; gap:16px; margin-top:18px;}
+  .sig-row .field{flex:1 1 200px; margin-bottom:0;}
+
+  .form-actions{display:flex; flex-wrap:wrap; gap:12px; margin-top:26px; align-items:center;}
+  .print-btn{
+    background:none; border:2px solid var(--ink); color:var(--ink);
+    font-family:'Fredoka', sans-serif; font-weight:600; font-size:.9rem;
+    padding:9px 18px; border-radius:999px; cursor:pointer;
+  }
+  .print-btn:hover{background:var(--paper);}
+
+  .privacy-note{font-size:.82rem; color:var(--text-soft); margin-top:18px;}
+
+  /* Print styles — a clean copy for the owner's records */
+  @media print{
+    header, .back-link, .form-actions, .add-pet, .remove-pet, footer, .privacy-note{display:none !important;}
+    body{background:#fff;}
+    .contact-card{border:none; box-shadow:none; padding:0; max-width:none;}
+    .pet-block, .agreement-box{break-inside:avoid;}
+    input, textarea{border:1px solid #999 !important; background:#fff !important;}
+    .wrap{padding:0;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="index.html">Evie <span>Task Master</span></a>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <a class="back-link" href="index.html">← Back to services &amp; pricing</a>
+    <span class="eyebrow">Pet visits</span>
+    <h1 style="font-size:1.9rem;">Pet care details &amp; agreement</h1>
+    <p class="intro-p">Thanks for booking pet visits! Please fill this in so we've got everything we need to look after your pet properly while you're away. It only takes a few minutes — and you can print or save a copy for your own records at the end.</p>
+
+    <div class="contact-card" style="margin-top:28px; max-width:640px;">
+      <form id="petForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <input type="hidden" name="_subject" value="Evie Task Master – Pet care details &amp; agreement">
+
+        <!-- Owner details -->
+        <div class="form-section">
+          <h2>Your details</h2>
+          <div class="field-row">
+            <div class="field">
+              <label for="ownerName">Your name</label>
+              <input type="text" id="ownerName" name="Owner name" required>
+            </div>
+            <div class="field">
+              <label for="ownerMobile">Mobile number</label>
+              <input type="text" id="ownerMobile" name="Owner mobile" required>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="ownerEmail">Email</label>
+              <input type="email" id="ownerEmail" name="Owner email" required>
+            </div>
+            <div class="field">
+              <label for="datesAway">Dates you'll be away</label>
+              <input type="text" id="datesAway" name="Dates away" placeholder="e.g. 20–27 Aug" required>
+            </div>
+          </div>
+          <div class="field">
+            <label for="address">Address where the pet is</label>
+            <input type="text" id="address" name="Address" required>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="emergencyName">Emergency contact name</label>
+              <input type="text" id="emergencyName" name="Emergency contact name" placeholder="Someone we can reach if we can't reach you">
+            </div>
+            <div class="field">
+              <label for="emergencyPhone">Emergency contact number</label>
+              <input type="text" id="emergencyPhone" name="Emergency contact number">
+            </div>
+          </div>
+        </div>
+
+        <!-- Pets -->
+        <div class="form-section">
+          <h2>Your pet(s)</h2>
+          <p class="section-hint">Add a block for each pet. The more detail the better — especially feeding, medication and anything about their temperament.</p>
+
+          <div id="petContainer">
+            <!-- Pet block template gets cloned here; first one is below -->
+            <div class="pet-block" data-pet>
+              <div class="pet-block-head">
+                <h3 class="pet-label">Pet 1</h3>
+                <button type="button" class="remove-pet" style="display:none;">Remove</button>
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label>Name</label>
+                  <input type="text" name="Pet name[]" required>
+                </div>
+                <div class="field">
+                  <label>Type &amp; breed</label>
+                  <input type="text" name="Pet type[]" placeholder="e.g. cat — tabby">
+                </div>
+                <div class="field">
+                  <label>Age</label>
+                  <input type="text" name="Pet age[]">
+                </div>
+              </div>
+              <div class="field">
+                <label>Feeding — what, how much, when, and where the food is kept</label>
+                <textarea name="Feeding[]" placeholder="e.g. 1 pouch morning &amp; evening, biscuits topped up, food in the cupboard by the back door"></textarea>
+              </div>
+              <div class="field">
+                <label>Medication (if any) — what, dose, and when</label>
+                <textarea name="Medication[]" placeholder="Leave blank if none"></textarea>
+              </div>
+              <div class="field">
+                <label>Temperament &amp; handling — anything we should know</label>
+                <textarea name="Temperament[]" placeholder="e.g. friendly but shy with strangers, likes to bolt out the front door, hides under the bed"></textarea>
+              </div>
+              <div class="field">
+                <label>Toileting / litter / walks</label>
+                <textarea name="Toileting[]" placeholder="e.g. litter tray in utility room, scoop daily; or dog needs a garden let-out"></textarea>
+              </div>
+              <div class="field">
+                <label>Allergies or other notes</label>
+                <input type="text" name="Allergies and notes[]">
+              </div>
+            </div>
+          </div>
+
+          <button type="button" class="add-pet" id="addPet">+ Add another pet</button>
+        </div>
+
+        <!-- Vet details -->
+        <div class="form-section">
+          <h2>Vet details</h2>
+          <div class="field-row">
+            <div class="field">
+              <label for="vetName">Vet practice name</label>
+              <input type="text" id="vetName" name="Vet practice" required>
+            </div>
+            <div class="field">
+              <label for="vetPhone">Vet phone</label>
+              <input type="text" id="vetPhone" name="Vet phone" required>
+            </div>
+          </div>
+          <div class="field">
+            <label for="vetAddress">Vet address</label>
+            <input type="text" id="vetAddress" name="Vet address">
+          </div>
+          <div class="field">
+            <label>Is your pet insured?</label>
+            <div class="radio-row">
+              <label><input type="radio" name="Pet insured" value="Yes"> Yes</label>
+              <label><input type="radio" name="Pet insured" value="No"> No</label>
+            </div>
+          </div>
+          <div class="field">
+            <label for="conditions">Any pre-existing conditions we should be aware of?</label>
+            <textarea id="conditions" name="Pre-existing conditions" placeholder="Leave blank if none"></textarea>
+          </div>
+        </div>
+
+        <!-- Emergency authorisation -->
+        <div class="form-section">
+          <h2>Emergency vet cover</h2>
+          <p class="section-hint">If something goes wrong, we'll always try to reach you first, then your emergency contact, then your vet. So the vet can act quickly if we can't reach anyone, please set a limit you're happy to pre-authorise.</p>
+          <div class="field">
+            <label for="vetLimit">I authorise emergency veterinary treatment up to this amount without prior contact</label>
+            <div class="amount-wrap">
+              <input type="number" id="vetLimit" name="Emergency vet limit (£)" min="0" step="10" placeholder="e.g. 250" required>
+            </div>
+          </div>
+        </div>
+
+        <!-- Access -->
+        <div class="form-section">
+          <h2>Access</h2>
+          <p class="section-hint">For your own security, please <strong>don't</strong> write key or alarm details here — we'll arrange the key handover with you in person. Just note anything general below if helpful.</p>
+          <div class="field">
+            <label for="accessNotes">Access notes (optional)</label>
+            <textarea id="accessNotes" name="Access notes" placeholder="e.g. side gate can stick, please use the back door"></textarea>
+          </div>
+        </div>
+
+        <!-- Agreement -->
+        <div class="form-section">
+          <h2>The agreement</h2>
+          <div class="agreement-box">
+            <ul>
+              <li>The information above is accurate and complete to the best of my knowledge, and my pet is in good health and — where relevant — up to date with vaccinations and flea/worm treatment.</li>
+              <li>Evie Task Master will take reasonable care of my pet, following the feeding and care instructions I've given.</li>
+              <li>I understand Evie Task Master is a local holiday-cover help service, not a licensed boarding or professional pet-care business, and that keeping my own pet and home insurance in place remains my responsibility.</li>
+              <li>In an emergency, Evie Task Master will try to reach me first, then my emergency contact, then my vet. If I can't be reached, I authorise emergency treatment up to the limit I've set above, and I remain responsible for all veterinary and related costs for my pet.</li>
+              <li>I remain responsible for my pet's overall wellbeing and for anything that couldn't reasonably have been foreseen or prevented while my instructions were being followed.</li>
+            </ul>
+          </div>
+
+          <label class="agree-check">
+            <input type="checkbox" name="Agreed to terms" value="Yes, agreed" required>
+            <span>I have read and agree to the above.</span>
+          </label>
+
+          <div class="sig-row">
+            <div class="field">
+              <label for="signature">Signed (type your full name)</label>
+              <input type="text" id="signature" name="Signature" required>
+            </div>
+            <div class="field">
+              <label for="signDate">Date</label>
+              <input type="date" id="signDate" name="Date" required>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn" id="submitBtn">Send to Evie Task Master →</button>
+          <button type="button" class="print-btn" id="printBtn">Print / save a copy</button>
+        </div>
+        <p class="privacy-note">The details you give here are only used to look after your pet, and are kept just for that. Please print or save a copy for your own records before submitting.</p>
+      </form>
+      <p class="form-msg" id="formMsg" role="status"></p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="brand">Evie Task Master</span>
+  Serving Prospect Road and nearby streets · Summer holidays only
+</footer>
+
+<script>
+  // ---- Add / remove pets ----
+  const petsWrap = document.getElementById('petContainer');
+  const addPetBtn = document.getElementById('addPet');
+  const MAX_PETS = 6;
+
+  function renumberPets() {
+    const blocks = petsWrap.querySelectorAll('[data-pet]');
+    Array.from(blocks).forEach((block, i) => {
+      block.querySelector('.pet-label').textContent = 'Pet ' + (i + 1);
+      // Only show a remove button when there's more than one pet
+      const rm = block.querySelector('.remove-pet');
+      rm.style.display = blocks.length > 1 ? 'inline' : 'none';
+    });
+    addPetBtn.style.display = blocks.length >= MAX_PETS ? 'none' : 'inline-flex';
+  }
+
+  addPetBtn.addEventListener('click', () => {
+    const blocks = petsWrap.querySelectorAll('[data-pet]');
+    if (blocks.length >= MAX_PETS) return;
+    const clone = blocks[0].cloneNode(true);
+    // Clear values in the clone
+    Array.from(clone.querySelectorAll('input, textarea')).forEach(el => { el.value = ''; });
+    petsWrap.appendChild(clone);
+    renumberPets();
+    clone.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+
+  petsWrap.addEventListener('click', (e) => {
+    if (e.target.classList.contains('remove-pet')) {
+      const block = e.target.closest('[data-pet]');
+      if (petsWrap.querySelectorAll('[data-pet]').length > 1) {
+        block.remove();
+        renumberPets();
+      }
+    }
+  });
+
+  renumberPets();
+
+  // ---- Print ----
+  document.getElementById('printBtn').addEventListener('click', () => window.print());
+
+  // ---- Form submission ----
+  const form = document.getElementById('petForm');
+  const msg = document.getElementById('formMsg');
+  const btn = document.getElementById('submitBtn');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    msg.textContent = '';
+    msg.className = 'form-msg';
+
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (response.ok) {
+        form.hidden = true;
+        msg.textContent = "Thanks! Your pet's details have been sent through. Do keep your printed/saved copy safe — and we'll be in touch to confirm.";
+        msg.className = 'form-msg success';
+      } else {
+        throw new Error('Form service returned an error');
+      }
+    } catch (err) {
+      msg.textContent = "Sorry, that didn't send. Please try again, or check the form is set up correctly.";
+      msg.className = 'form-msg error';
+      btn.disabled = false;
+      btn.textContent = 'Send to Evie Task Master →';
+    }
+  });
+</script>
+
+</body>
+</html>
